@@ -105,3 +105,47 @@ Current limitations:
 - No CSV/JSON parsing yet.
 - No event normalization yet.
 - No automated tests yet.
+
+## MVP 02 — CSV Schema Validation
+
+Implemented capability:
+
+- Accepts `--input <path>` and optional `--validate-csv`.
+- Preserves MVP 01 safe input-file inspection when `--validate-csv` is not used.
+- Rejects non-CSV input during CSV validation.
+- Validates these required CSV columns:
+  - `EventID`
+  - `TimeCreated`
+  - `TargetUserName`
+  - `IpAddress`
+- Reports detected columns, missing required columns, and data-row count.
+- Handles a valid schema with zero data rows.
+- Returns explicit exit codes for success and expected validation failures.
+
+Run:
+
+```powershell
+python .\src\main.py --input .\sample-data\valid-events.csv --validate-csv
+```
+
+Exit codes:
+
+| Code | Meaning |
+|---:|---|
+| `0` | Validation passed |
+| `1` | Input path is invalid or does not exist |
+| `3` | CSV validation was requested for a non-CSV file |
+| `4` | Required CSV columns are missing |
+| `5` | CSV could not be read safely |
+
+Verification evidence:
+
+- `docs/mvp-02-verification.md`
+
+Current limitations:
+
+- Only CSV input is supported.
+- Required column names must match exactly.
+- Field values, timestamps, IP addresses, and Event IDs are not validated yet.
+- No event normalization or output-file generation exists yet.
+- No automated tests exist yet.
