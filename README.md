@@ -149,3 +149,49 @@ Current limitations:
 - Field values, timestamps, IP addresses, and Event IDs are not validated yet.
 - No event normalization or output-file generation exists yet.
 - No automated tests exist yet.
+
+## MVP 03 — CSV Field Normalization
+
+Implemented capability:
+
+- Accepts `--input <path> --normalize-csv --output <new-output.csv>`.
+- Runs CSV schema validation before normalization.
+- Renames source columns to a consistent output schema:
+  - `EventID` → `event_id`
+  - `TimeCreated` → `time_created`
+  - `TargetUserName` → `target_user_name`
+  - `IpAddress` → `ip_address`
+- Trims leading and trailing whitespace from field values.
+- Preserves input row order.
+- Creates a new output CSV without modifying the input file.
+- Refuses to overwrite an existing output file.
+
+Run:
+
+```powershell
+python .\src\main.py --input .\sample-data\messy-events.csv --normalize-csv --output .\sample-output\messy-events.normalized.csv
+```
+
+Exit codes:
+
+| Code | Meaning |
+|---:|---|
+| `0` | Normalization completed successfully |
+| `1` | Input path is invalid or does not exist |
+| `3` | CSV operation was requested for a non-CSV file |
+| `4` | Required CSV columns are missing |
+| `5` | CSV could not be read safely |
+| `6` | Output argument/path is unsafe or output already exists |
+
+Verification evidence:
+
+- `docs/mvp-03-verification.md`
+
+Current limitations:
+
+- Only CSV input is supported.
+- Source header names must match exactly.
+- Field values are trimmed but not semantically validated.
+- No Event ID, timestamp, username, or IP validation exists yet.
+- No detection, aggregation, or reporting logic exists yet.
+- No automated tests exist yet.
