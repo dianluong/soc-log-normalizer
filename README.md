@@ -79,3 +79,29 @@ soc-log-normalizer/
 ├── .gitignore
 ├── README.md
 └── requirements.txt
+
+## MVP 01 — Safe Input File Inspection
+
+Implemented capability:
+
+- Accepts an input file through `--input`.
+- Validates that the path exists.
+- Validates that the path is a file, not a directory.
+- Prints safe metadata: resolved path, extension, and size in bytes.
+- Returns explicit exit codes for invalid input.
+
+Run:
+
+```powershell
+python .\src\main.py --input .\sample-data\sample.txt
+```
+
+Verification evidence:
+
+- `docs/mvp-01-verification.md`
+
+Current limitations:
+
+- No CSV/JSON parsing yet.
+- No event normalization yet.
+- No automated tests yet.
